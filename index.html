@@ -12,6 +12,62 @@
         <title>Bounce off Patterns Gen</title>
     </head>
     <body> 
-        <py-script> print("Hello, World!") </py-script> 
+        <div style="font-family: monospace, monospace; padding: 20px;">
+        <py-script> 
+            import argparse
+            import random
+            
+            
+            def get_coord(num, m):
+                x = num//m
+                y = num % m
+                return x, y
+            
+            
+            def validate(balls, n, m):
+                limit = 100
+                if balls > limit or n > limit or m > limit:
+                    print("Smaller numbers please! Only upto 100.")
+                    return False
+            
+                if balls == 0 or n == 0 or m == 0:
+                    print("--balls, --rows, and --cols should be greater than 0.")
+                    return False
+            
+                board_sz = n*m
+                if balls > board_sz:
+                    print("The board isn't big enough for ", balls, " balls!")
+                    return False
+            
+                return True
+            
+            
+            def generate(balls, n, m):
+                board_sz = n*m
+                generated_rand = random.sample(range(board_sz), balls)
+                generated_coords = []
+            
+                if not validate(balls, n, m):
+                    return
+            
+                for num in generated_rand:
+                    generated_coords.append(get_coord(num, m))
+            
+                board = [['.' for _ in range(m)] for _ in range(n)]
+            
+                for x, y in generated_coords:
+                    board[x][y] = 'O'
+            
+                for row in board:
+                    print(" ".join(row))
+            
+            if __name__ == "__main__":
+                balls = 4
+                n = 5
+                m = 5
+            
+                generate(balls, n, m) 
+            </py-script> 
+        </div>
     </body>
 </html>
